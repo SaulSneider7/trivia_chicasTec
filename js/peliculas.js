@@ -46,6 +46,45 @@ function iniciarTiempo(duracion, componente) {
             }
             componente.textContent = `00:${duracion}`;
             duracion--;
+
         }
     }, 1000);
+}
+
+function loadQuestion() {
+    iniciar_cronometro();
+    if (preguntas.length > 0) {
+        indice_aleatorio = Math.floor(Math.random() * preguntas.length);
+        pregunta_text="";
+
+        //Contruimos el HTML para las preguntas y sus opciones
+        pregunta_text += `<p>${preguntas[indice_aleatorio].pregunta}</p>`;
+
+        pregunta_text += `<button id="opcion0" onclick="verificarRespuestaCorrecta(0, ${preguntas[indice_aleatorio].correcta})">${preguntas[indice_aleatorio].respuestas[0]}</button>`;
+        pregunta_text += `<button id="opcion1" onclick="verificarRespuestaCorrecta(1, ${preguntas[indice_aleatorio].correcta})">${preguntas[indice_aleatorio].respuestas[1]}</button>`;
+        pregunta_text += `<button id="opcion2" onclick="verificarRespuestaCorrecta(2, ${preguntas[indice_aleatorio].correcta})">${preguntas[indice_aleatorio].respuestas[2]}</button>`;
+        pregunta_text += `<button id="opcion3" onclick="verificarRespuestaCorrecta(3, ${preguntas[indice_aleatorio].correcta})">${preguntas[indice_aleatorio].respuestas[3]}</button>`;
+        
+        //Muestra la pregunta y sus opciones en la pagina
+        document.getElementById("pregunta").innerHTML = pregunta_text;
+        preguntas.splice(indice_aleatorio, 1); //Carga una nueva pregunta
+    } else {
+        window.location.href = "../resultados.html";
+    }
+    
+}
+
+var puntos = 0;
+
+function verificarRespuestaCorrecta(indice, correcta) {
+    if (indice == correcta) {
+        puntos += 5;
+    }
+
+    localStorage.setItem("SCORE", puntos);
+}
+
+function siguientePregunta() {
+    clearInterval(interval); //Detener el cronometro
+    loadQuestion(); // Cargar nueva preguntas
 }
