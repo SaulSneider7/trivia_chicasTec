@@ -79,9 +79,16 @@ var puntos = 0;
 function verificarRespuestaCorrecta(indice, correcta) {
     if (indice == correcta) {
         puntos += 5;
+
     }
 
     localStorage.setItem("SCORE", puntos);
+
+    document.getElementById("opcion0").disabled = true;
+    document.getElementById("opcion1").disabled = true;
+    document.getElementById("opcion2").disabled = true;
+    document.getElementById("opcion3").disabled = true;
+
 }
 
 function siguientePregunta() {
